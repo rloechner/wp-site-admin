@@ -305,10 +305,14 @@ def pmpro(expiring_days=14):
         active.append(row)
         if endd and endd < now + timedelta(days=expiring_days): expiring.append(row)
     active_ids = {str(a["user_id"]) for a in active}
-    paid_users = {}
+    # Lapsed = has any PMPro order (paid or failed) but no active level now. Orders arrive newest first.
+    seen, last_paid = {}, {}
     for o in orders:
-        if o["status"] == "success": paid_users[str(o["user_id"])] = o
-    lapsed = [{"user_id": int(uid), "user": o["user_nicename"], "last_paid": o["timestamp"][:10]} for uid, o in paid_users.items() if uid not in active_ids]
+        uid = str(o["user_id"])
+        seen.setdefault(uid, o)
+        if o["status"] == "success": last_paid.setdefault(uid, o["timestamp"][:10])
+    lapsed = [{"user_id": int(uid), "user": o["user_nicename"], "last_paid": last_paid.get(uid), "last_order_status": o["status"]}
+              for uid, o in seen.items() if uid not in active_ids]
     failed = [{"order": o["code"], "user": o["user_nicename"], "total": o["total"], "date": o["timestamp"][:10]} for o in orders if o["status"] in ("error", "failed", "review")]
     refunded = [{"order": o["code"], "user": o["user_nicename"], "total": o["total"]} for o in orders if o["status"] == "refunded"]
     by = {}
@@ -375,7 +379,7 @@ def help_requests():
 def digest():
     v = verify(); h = health(); c = content(); u = users(); hr = help_requests()
     site = (get("/wp-json/", auth=False) or {}).get("name", URL)
-    L = [f"# WP Site Admin daily digest: {site}", f"_{URL} · {datetime.now().strftime('%a %b %d, %Y %I:%M %p')} (site-local box time)_", ""]
+    L = [f"# WP Site Admin daily digest: {site}", f"_{URL} · {datetime.now().strftime('%a %b %d, %Y %I:%M %p')} (local time where the bot runs)_", ""]
     urgent, waiting, fyi = [], [], []
     if not h["uptime"]["up"]: urgent.append(f"Site is DOWN (HTTP {h['uptime']['code']})")
     if h["ssl"].get("days_left") is not None and h["ssl"]["days_left"] < 14: urgent.append(f"SSL certificate expires in {h['ssl']['days_left']} days")
@@ -389,8 +393,8 @@ def digest():
     if cm["pending"]: waiting.append(f"{cm['pending']} comments awaiting moderation. *Do it yourself:* Comments → Pending.")
     if cm["spam"]: fyi.append(f"{cm['spam']} comments in spam (safe to empty). *Do it yourself:* Comments → Spam → Empty Spam.")
     if c["drafts"]: waiting.append(f"{len(c['drafts'])} drafts ({sum(d['stale'] for d in c['drafts'])} untouched 30+ days): " + ", ".join(f"\"{d['title']}\"" for d in c["drafts"][:5]) + ". *Do it yourself:* Posts → All Posts → Drafts.")
-    if c["no_featured_image"]: fyi.append(f"{len(c['no_featured_image'])} published posts have no featured image. *Do it yourself:* edit the post → Post settings sidebar → Featured image.")
-    if c["no_manual_excerpt"]: fyi.append(f"{len(c['no_manual_excerpt'])} published posts have no manual excerpt.")
+    if c["no_featured_image"]: fyi.append(f"{len(c['no_featured_image'])} published post(s) have no featured image. *Do it yourself:* edit the post → Post settings sidebar → Featured image.")
+    if c["no_manual_excerpt"]: fyi.append(f"{len(c['no_manual_excerpt'])} published post(s) have no manual excerpt.")
     if c["broken_internal_links"]: waiting.append(f"{len(c['broken_internal_links'])} broken internal links, e.g. {c['broken_internal_links'][0]['url']} in \"{c['broken_internal_links'][0]['title']}\".")
     for s in u["suspicious"]: urgent.append(f"Suspicious user {s['username']}: {', '.join(s['flags'])}. *Do it yourself:* Users → All Users.")
     crit = [k for k, x in h["site_health"].items() if x.get("status") == "critical"]
@@ -403,7 +407,9 @@ def digest():
     pm = u.get("pmpro") or {}
     for f in pm.get("failed_payments", []): urgent.append(f"Failed membership payment: {f['user']} ({f['total']}, order {f['order']}, {f['date']}). *Do it yourself:* Memberships → Orders → filter Error.")
     for e in pm.get("expiring_soon", []): waiting.append(f"Membership expiring: {e['user']} ({e['level']}) ends {e['ends']}. *Do it yourself:* Memberships → Members → edit member.")
-    for e in pm.get("expired_or_lapsed", []): fyi.append(f"Lapsed member: {e['user']} paid last on {e['last_paid']}, no active level now (win-back candidate). *Do it yourself:* Memberships → Members → Old Members.")
+    for e in pm.get("expired_or_lapsed", []):
+        why = f"paid last on {e['last_paid']}" if e.get("last_paid") else f"no successful payment (last order: {e.get('last_order_status')})"
+        fyi.append(f"Lapsed member: {e['user']}, {why}, no active level now (win-back candidate). *Do it yourself:* Memberships → Members → Old Members.")
     if pm.get("error"): fyi.append("Paid Memberships Pro: " + pm["error"])
     helps = [e for s_ in hr["sources"] if isinstance(s_.get("entries"), list) for e in s_["entries"]]
     real = [e for e in helps if e.get("category") != "spam"]
