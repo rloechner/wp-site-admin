@@ -1,0 +1,5 @@
+.env
+*.secret
+CREDENTIALS*
+__pycache__/
+.wpsa/
