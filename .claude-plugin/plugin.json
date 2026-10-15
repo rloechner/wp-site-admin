@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "wp-site-admin",
   "description": "A WordPress expert on call: monitors site health, updates, SSL and uptime, audits content, triages users, WooCommerce orders and subscriptions, drafts replies to help requests, and walks owners through any fix in wp-admin. Read-only by default; every change waits for your approval.",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "author": {
     "name": "Ryan Loechner"
   },
