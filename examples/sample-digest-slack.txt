@@ -1,0 +1,61 @@
+🔴 *WP Site Admin · WP Test Site* (<http://localhost:8080|localhost:8080>) · Thu Oct 15
+*2* urgent · *8* waiting on you · *5* FYI
+*🔴 Needs attention*
+• Failed WooCommerce order #69 (19.99, r***@example.com).
+• Failed membership payment: user8 (19, order LFU5YTC237, 2026-10-14).
+*🟡 Waiting on you*
+• Plugin update: Akismet Anti-spam: Spam Protection 5.3 → 5.7.2 (inactive).
+• 2 comments awaiting moderation.
+• 5 drafts (0 untouched 30+ days): "Year-End Market Recap", "Investing in Rental Property", "Inspection Red Flags", "Condo vs. Townhouse", "Remote Work and Housi…
+_…and 5 more in thread_
+_Trend: published 11 → 12; pending comments 3 → 2; users 12 → 15; orders 0 → 6_
+_Reply to me in chat (not here) to approve any change. Full digest in thread ↓_
+----- THREAD REPLY -----
+*WP Site Admin daily digest: WP Test Site*
+_http://localhost:8080 · Thu Oct 15, 2026 02:53 PM (local time where the bot runs)_
+
+*🔴 Needs attention now*
+• Failed WooCommerce order #69 (19.99, r***@example.com). _Do it yourself:_ WooCommerce → Orders → Failed.
+• Failed membership payment: user8 (19, order LFU5YTC237, 2026-10-14). _Do it yourself:_ Memberships → Orders → filter Error.
+
+*🟡 Waiting on you (approve and I'll do it)*
+• Plugin update: Akismet Anti-spam: Spam Protection 5.3 → 5.7.2 (inactive). Say "update akismet" and I'll back up, update it alone, and check the site (updates skill). _Do it yourself:_ Dashboard → Updates.
+• 2 comments awaiting moderation. _Do it yourself:_ Comments → Pending.
+• 5 drafts (0 untouched 30+ days): "Year-End Market Recap", "Investing in Rental Property", "Inspection Red Flags", "Condo vs. Townhouse", "Remote Work and Housing Demand". _Do it yourself:_ Posts → All Posts → Drafts.
+• 3 broken internal links, e.g. http://localhost:8080/category/does-not-exist/ in "Mortgage Rates Explained".
+• Site Health critical: loopback-requests. _Do it yourself:_ Tools → Site Health.
+• 1 order(s) on hold awaiting payment confirmation. _Do it yourself:_ WooCommerce → Orders → On hold.
+• Membership expiring: user8 (Premium) ends 2026-10-20. _Do it yourself:_ Memberships → Members → edit member.
+• 3 help request(s) need replies (drafts ready on request): Tom Alvarez: "Question about my bill" [billing]; Priya Nair: "Paid but cannot access premium guides" [access]; Jordan Blake: "Password reset not arriving" [login]. _Do it yourself:_ Flamingo → Inbound Messages.
+
+*🔵 FYI*
+• 2 comments in spam (safe to empty). _Do it yourself:_ Comments → Spam → Empty Spam.
+• 12 published post(s) have no featured image. _Do it yourself:_ edit the post → Post settings sidebar → Featured image.
+• 12 published post(s) have no manual excerpt.
+• Order #70 refunded (25.00).
+• Lapsed member: user9, paid last on 2026-10-05, no active level now (win-back candidate). _Do it yourself:_ Memberships → Members → Old Members.
+
+*Vital signs*
+• Uptime: up, homepage 110 ms, REST API 89 ms
+• SSL: Site is not served over HTTPS
+• WordPress 7.1.3 (latest 7.1.3); 1 plugin update(s)
+• Site Health: background-updates good, loopback-requests critical, dotorg-communication good, authorization-header recommended, page-cache recommended
+• Content: 12 published, 5 drafts, 0 missed schedule; 9 internal links checked
+• Users: 15 total, roles {'administrator': 2, 'customer': 3, 'editor': 2, 'subscriber': 4, 'author': 2, 'contributor': 2}, 3 new in 7 days, admins: admin, wpbot
+• WooCommerce: 3 products, orders {'completed': 2, 'on-hold': 1, 'refunded': 1, 'failed': 1, 'processing': 1}, 1 failed
+• Subscriptions: WooCommerce Subscriptions not installed (no /wc/v3/subscriptions)
+• Memberships (PMPro): 3 active {'Premium': 2, 'Basic': 1}, 1 expiring ≤14 days, 1 lapsed, 1 failed payment(s)
+• Help requests (Contact Form 7): CF7 stores no entries itself; read via Flamingo
+• Help requests (Flamingo): 3 entries
+
+*Trend vs 2026-10-14*
+• published 11 → 12
+• pending comments 3 → 2
+• users 12 → 15
+• orders 0 → 6
+• failed orders 0 → 1
+• active members 0 → 3
+• help requests 0 → 3
+• homepage 110 → 110 ms
+
+_Connected as `wpbot` (administrator). Read-only run; no changes were made._

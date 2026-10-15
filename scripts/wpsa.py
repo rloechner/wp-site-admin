@@ -2,7 +2,7 @@
 """WP Site Admin helper. Read-only checks over the WordPress REST API.
 
 Env: WP_URL, WP_USER (bot admin login, e.g. wpbot), WP_APP_PASSWORD (Application Password).
-Usage: wpsa.py <verify|detect|health|content|users|help|digest|state>
+Usage: wpsa.py <verify|detect|health|content|users|help|digest [--format slack]|state>\n--format slack prints a compact Slack mrkdwn post, a line '----- THREAD REPLY -----', then the full digest in mrkdwn for a thread reply.
 State (trends, known-admin baseline) lives in $WPSA_STATE_DIR (default ~/.wpsa)/state-<host>.json; digest updates it.
 Never prints credentials. Performs only GET requests (plus public wordpress.org lookups).
 """
@@ -455,7 +455,56 @@ def digest():
         L.append(f"- Help requests ({s['plugin']}): " + (s['entries'] if isinstance(s['entries'], str) else f"{len(s['entries'])} entries"))
     L += ["", "## Trend vs " + (prev_day or "previous run")] + ([f"- {t}" for t in trend] or ["- " + ("No changes." if prev_day else "First run: baseline saved; trends start tomorrow.")])
     L += ["", f"_Connected as `{v.get('user')}` ({', '.join(v.get('roles') or [])}). Read-only run; no changes were made._"]
+    LAST.update(site=site, url=URL, urgent=urgent, waiting=waiting, fyi=fyi, trend=trend, prev_day=prev_day, markdown="\n".join(L))
     return "\n".join(L)
+
+LAST = {}
+THREAD_MARKER = "----- THREAD REPLY -----"
+
+def md_to_mrkdwn(text):
+    """Convert the digest's Markdown to Slack mrkdwn: headings -> bold lines, **b** -> *b*, *i*/_i_ -> _i_, [t](u) -> <u|t>."""
+    out = []
+    for line in text.splitlines():
+        m = re.match(r"^#{1,6}\s+(.*)", line)
+        if m: line = f"*{m.group(1).strip()}*"
+        else:
+            line = re.sub(r"\[([^\]]+)\]\((https?://[^)]+)\)", r"<\2|\1>", line)
+            line = re.sub(r"(?<!\*)\*(?!\*)([^*\n]+?)(?<!\*)\*(?!\*)", r"_\1_", line)   # *italic* -> _italic_
+            line = re.sub(r"\*\*([^*]+)\*\*", r"*\1*", line)                               # **bold** -> *bold*
+            line = re.sub(r"^(\s*)- ", r"\1• ", line)
+        out.append(line)
+    return "\n".join(out)
+
+def short(item, n=160):
+    item = re.sub(r"\s*\*Do it yourself:\*.*$", "", item)        # paths stay in the thread
+    item = re.sub(r"\s*Say \"update [^\"]+\" and I'll.*?\(updates skill\)\.", "", item)
+    item = re.sub(r"\s*Approve and I'll.*?\(updates skill\)\.", "", item)
+    return item if len(item) <= n else item[: n - 1].rstrip() + "…"
+
+def redact_emails(text):
+    """Team channels are wider than the owner's chat: mask customer emails (riley.chen@example.com -> r***@example.com)."""
+    return re.sub(r"\b([A-Za-z0-9])[A-Za-z0-9._%+-]*@([A-Za-z0-9.-]+\.[A-Za-z]{2,})\b", r"\1***@\2", text)
+
+def digest_slack(top=3):
+    """Compact Slack post (headline counts + top items) and the full digest as a thread reply, separated by THREAD_MARKER."""
+    md = digest()
+    d = LAST
+    u, w, f = d["urgent"], d["waiting"], d["fyi"]
+    status = "🔴" if u else ("🟡" if w else "🟢")
+    host = urllib.parse.urlparse(d["url"]).netloc
+    head = [f"{status} *WP Site Admin · {d['site']}* (<{d['url']}|{host}>) · {datetime.now().strftime('%a %b %d')}",
+            f"*{len(u)}* urgent · *{len(w)}* waiting on you · *{len(f)}* FYI"]
+    def block(title, items):
+        if not items: return []
+        b = [f"*{title}*"] + [f"• {md_to_mrkdwn(short(x))}" for x in items[:top]]
+        if len(items) > top: b.append(f"_…and {len(items) - top} more in thread_")
+        return b
+    head += block("🔴 Needs attention", u) + block("🟡 Waiting on you", w)
+    if not u and not w: head.append("All good: site up, nothing waiting on you.")
+    if d.get("trend"): head.append("_Trend: " + "; ".join(d["trend"][:4]) + "_")
+    head.append("_Reply to me in chat (not here) to approve any change. Full digest in thread ↓_")
+    thread = md_to_mrkdwn(md)
+    return redact_emails("\n".join(head) + "\n" + THREAD_MARKER + "\n" + thread)
 
 if __name__ == "__main__":
     if not (URL and USER and PW): die("Set WP_URL, WP_USER, WP_APP_PASSWORD")
@@ -463,5 +512,7 @@ if __name__ == "__main__":
     if cmd == "state": print(json.dumps({"path": state_path(), **load_state()}, indent=2)); sys.exit(0)
     fn = {"verify": verify, "detect": detect, "health": health, "content": content, "users": users, "help": help_requests, "digest": digest}.get(cmd)
     if not fn: die("unknown command " + cmd)
+    if cmd == "digest" and "--format" in sys.argv and sys.argv[sys.argv.index("--format") + 1] == "slack":
+        fn = digest_slack
     out = fn()
     print(out if isinstance(out, str) else json.dumps(out, indent=2, default=str))
