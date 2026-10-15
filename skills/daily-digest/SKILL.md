@@ -10,7 +10,7 @@ source scripts/wp-env.sh && python3 scripts/wpsa.py digest > /tmp/wp-digest.md
 ```
 The helper outputs Markdown in three tiers, each item with a "Do it yourself" wp-admin path:
 - 🔴 **Needs attention now**: site down, SSL < 14 days, missed schedules, suspicious admins, failed payments.
-- 🟡 **Waiting on you**: updates, comment moderation, drafts, broken links, Site Health critical. Offer "reply with the numbers you want me to do".
+- 🟡 **Waiting on you**: updates (handled by the **updates** skill once the owner approves), comment moderation, drafts, broken links, Site Health critical. Offer "reply with the numbers you want me to do".
 - 🔵 **FYI**: spam counts, featured images, excerpts.
 - **Vital signs**: response times, versions, counts.
 

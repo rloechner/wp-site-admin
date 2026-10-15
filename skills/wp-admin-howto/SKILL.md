@@ -11,7 +11,8 @@ description: "Use whenever the bot takes or proposes an action, or the owner ask
 
 | Task | Path |
 |---|---|
-| Updates (core, plugins, themes) | Dashboard → Updates |
+| Updates (core, plugins, themes) | Dashboard → Updates (bot: updates skill) |
+| Auto-updates per plugin | Plugins → Installed Plugins → Enable auto-updates |
 | Install/activate/deactivate plugin | Plugins → Installed Plugins / Add New Plugin |
 | Site Health | Tools → Site Health (Status, Info) |
 | Publish / schedule post | Posts → All Posts → Quick Edit, or editor → Publish panel |
