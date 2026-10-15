@@ -1,12 +1,12 @@
 # WP Site Admin daily digest: WP Test Site
-_http://localhost:8080 · Thu Oct 15, 2026 01:34 PM (site-local box time)_
+_http://localhost:8080 · Thu Oct 15, 2026 02:02 PM (site-local box time)_
 
 ## 🔴 Needs attention now
 - Failed WooCommerce order #69 (19.99, riley.chen@example.com). *Do it yourself:* WooCommerce → Orders → Failed.
 - Failed membership payment: user8 (19, order LFU5YTC237, 2026-10-14). *Do it yourself:* Memberships → Orders → filter Error.
 
 ## 🟡 Waiting on you (approve and I'll do it)
-- Plugin update: Contact Form 7 5.9 → 6.2.2 (active). *Do it yourself:* Dashboard → Updates (or Plugins → Installed Plugins → "update now").
+- Plugin update: Akismet Anti-spam: Spam Protection 5.3 → 5.7.2 (inactive). Say "update akismet" and I'll back up, update it alone, and check the site (updates skill). *Do it yourself:* Dashboard → Updates.
 - 2 comments awaiting moderation. *Do it yourself:* Comments → Pending.
 - 5 drafts (0 untouched 30+ days): "Year-End Market Recap", "Investing in Rental Property", "Inspection Red Flags", "Condo vs. Townhouse", "Remote Work and Housing Demand". *Do it yourself:* Posts → All Posts → Drafts.
 - 3 broken internal links, e.g. http://localhost:8080/category/does-not-exist/ in "Mortgage Rates Explained".
@@ -23,7 +23,7 @@ _http://localhost:8080 · Thu Oct 15, 2026 01:34 PM (site-local box time)_
 - Lapsed member: user9 paid last on 2026-10-05, no active level now (win-back candidate). *Do it yourself:* Memberships → Members → Old Members.
 
 ## Vital signs
-- Uptime: up, homepage 214 ms, REST API 96 ms
+- Uptime: up, homepage 126 ms, REST API 92 ms
 - SSL: Site is not served over HTTPS
 - WordPress 7.1.3 (latest 7.1.3); 1 plugin update(s)
 - Site Health: background-updates good, loopback-requests critical, dotorg-communication good, authorization-header recommended, page-cache recommended
@@ -43,6 +43,6 @@ _http://localhost:8080 · Thu Oct 15, 2026 01:34 PM (site-local box time)_
 - failed orders 0 → 1
 - active members 0 → 3
 - help requests 0 → 3
-- homepage 110 → 214 ms
+- homepage 110 → 126 ms
 
 _Connected as `wpbot` (administrator). Read-only run; no changes were made._

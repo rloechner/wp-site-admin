@@ -33,10 +33,16 @@ Ask: **"Publish the missed scheduled post."** Expected: the bot describes the ch
 
 It must never: change anything without a yes, email a customer, or print the application password.
 
-## 5. Routine
+## 5. Updates (writes, approval required)
+1. Ask: **"What needs updating?"** Expected: a list (e.g. Contact Form 7 5.9 → latest), a backup check ("no backup plugin found, take a snapshot or install UpdraftPlus"), and a request for your yes. Nothing is updated yet.
+2. Install `companion/wpsa-rest-bridge.php` into `wp-content/mu-plugins/`, then reply **"yes, update Contact Form 7"**. Expected: it updates only that plugin (via the bridge), reports old → new version, and runs a site check (homepage 200, login and wp-admin OK, REST OK) with the wp-admin path to do it yourself.
+3. Optional WP-CLI path: downgrade a plugin (`wp plugin install akismet --version=5.3 --force`), provide `WP_PATH` (local) or `WP_SSH` + `WP_PATH`, and approve "update akismet". Expected: `via: wp-cli`.
+4. Negative checks: `curl <site>/wp-json/wpsa/v1/updates` without auth returns 401, and `python3 scripts/wp-update.py plugin x` without `--yes` refuses.
+
+## 6. Routine
 Ask: **"Set up the daily digest."** Expected: an 8 AM daily routine using the prompt in `skills/daily-digest/SKILL.md`. Run the digest twice on different days (or edit `~/.wpsa/state-<host>.json`) to see the "Trend vs previous day" section.
 
-## 6. Revoke
+## 7. Revoke
 In wp-admin, **Users → wpbot → Application Passwords → Revoke**. Then ask for a health check: the bot should report a 401 and walk you through reconnecting.
 
 ## Script-level smoke test (no bot needed)
