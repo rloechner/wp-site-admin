@@ -381,10 +381,10 @@ def digest():
     if h["ssl"].get("days_left") is not None and h["ssl"]["days_left"] < 14: urgent.append(f"SSL certificate expires in {h['ssl']['days_left']} days")
     for m in h["missed_schedule"]: urgent.append(f"Missed scheduled post: \"{m['title']}\" (ID {m['id']}), {m['late_hours']} h late. *Do it yourself:* Posts → All Posts → filter Scheduled → Quick Edit → set status Published.")
     pu = [p for p in h["plugins"] if p["update"]]
-    for p in pu: waiting.append(f"Plugin update: {p['name']} {p['installed']} → {p['latest']} ({p['status']}). *Do it yourself:* Dashboard → Updates (or Plugins → Installed Plugins → \"update now\").")
-    if h["core"]["update"]: waiting.append(f"WordPress core {h['core']['installed']} → {h['core']['latest']}. *Do it yourself:* Dashboard → Updates.")
+    for p in pu: waiting.append(f"Plugin update: {p['name']} {p['installed']} → {p['latest']} ({p['status']}). Say \"update {p['slug']}\" and I'll back up, update it alone, and check the site (updates skill). *Do it yourself:* Dashboard → Updates.")
+    if h["core"]["update"]: waiting.append(f"WordPress core {h['core']['installed']} → {h['core']['latest']}. Approve and I'll update it last, on its own (updates skill). *Do it yourself:* Dashboard → Updates.")
     for t in h["themes"]:
-        if t["update"]: waiting.append(f"Theme update: {t['slug']} {t['installed']} → {t['latest']}. *Do it yourself:* Appearance → Themes.")
+        if t["update"]: waiting.append(f"Theme update: {t['slug']} {t['installed']} → {t['latest']}. Approve and I'll update it (updates skill). *Do it yourself:* Dashboard → Updates or Appearance → Themes.")
     cm = c["comments"]
     if cm["pending"]: waiting.append(f"{cm['pending']} comments awaiting moderation. *Do it yourself:* Comments → Pending.")
     if cm["spam"]: fyi.append(f"{cm['spam']} comments in spam (safe to empty). *Do it yourself:* Comments → Spam → Empty Spam.")
