@@ -1,0 +1,9 @@
+{
+  "name": "wp-site-admin",
+  "description": "A WordPress expert on call: monitors site health, updates, SSL and uptime, audits content, triages users, WooCommerce orders and subscriptions, drafts replies to help requests, and walks owners through any fix in wp-admin. Read-only by default; every change waits for your approval.",
+  "version": "0.2.0",
+  "author": { "name": "Ryan Loechner" },
+  "keywords": ["wordpress", "woocommerce", "site-health", "content", "subscriptions", "support"],
+  "license": "MIT",
+  "skills": "./skills/"
+}
