@@ -1,8 +1,13 @@
-<!-- PLACEHOLDER logo: replace with final 1:1 artwork (SVG or PNG, with background plate) before submission -->
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#1e2a38"/>
-  <circle cx="256" cy="230" r="130" fill="none" stroke="#ffffff" stroke-width="22"/>
-  <text x="256" y="278" font-family="Georgia, serif" font-size="150" font-weight="bold" fill="#ffffff" text-anchor="middle">W</text>
-  <rect x="176" y="390" width="160" height="34" rx="17" fill="#3fb37f"/>
-  <text x="256" y="415" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="bold" fill="#1e2a38" text-anchor="middle">ADMIN</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="t">
+  <title id="t">WP Site Admin</title>
+  <!-- Solid background plate: WordPress-style blue rounded square -->
+  <rect width="512" height="512" rx="112" fill="#21759B"/>
+  <!-- Shield outline -->
+  <path d="M256 82 L398 132 V246 C398 336 336 400 256 432 C176 400 114 336 114 246 V132 Z"
+        fill="none" stroke="#FFFFFF" stroke-width="26" stroke-linejoin="round"/>
+  <!-- Geometric "W" (hand-drawn strokes, not the WordPress mark) -->
+  <path d="M170 196 L212 330 L256 236 L300 330 L342 196"
+        fill="none" stroke="#FFFFFF" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Small check/status dot at the shield tip -->
+  <circle cx="256" cy="378" r="14" fill="#FFFFFF"/>
 </svg>
