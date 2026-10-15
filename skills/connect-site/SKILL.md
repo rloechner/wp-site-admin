@@ -38,5 +38,8 @@ Returns plugins (slug, version, active), REST namespaces, and `capabilities` (co
 - Yoast / Rank Math / AIOSEO → SEO fields in content-audit.
 - CF7 / Flamingo / WPForms / Gravity Forms → help-requests sources.
 
+## Where should digests go?
+Ask: *"Should I send the daily digest and urgent alerts only here in chat, or also to a Slack channel?"* If the host bot has Slack connected and the owner names a channel and cadence, record the opt-in as described in the team-notifications skill. Teams and email follow the same pattern.
+
 ## Finish
 Tell the owner what you found in 4–6 lines, confirm the rules (read-only checks run freely; any change waits for their yes), and offer the daily digest routine (daily-digest skill).

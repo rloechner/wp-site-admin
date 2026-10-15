@@ -25,6 +25,7 @@ Optional SSH: if your host offers shell access, give the bot `WP_SSH` (user@host
 - **Never sends on your behalf.** Replies to customers are drafted for you; nothing is emailed unless you say "send this one".
 - **Secrets stay secret.** Credentials live only in the secret store and are never printed or written to notes. The state file holds counts and admin usernames only.
 - **Updates are deliberate.** Pending updates are listed, a backup is recommended first (the bot checks for a backup plugin), each update needs your yes, runs one at a time, and is followed by a site check (homepage, login, wp-admin, REST). If something breaks, the bot stops and gives you rollback steps. It never turns on auto-updates.
+- **Team channels are opt-in.** If you choose a Slack channel during onboarding, the bot posts only the digest and urgent alerts there. It sends no other Slack messages without asking, never acts on replies from Slack (approvals stay in your chat), masks customer emails, and never posts secrets.
 - **Least surprise.** Revoke the application password and the bot loses access immediately.
 
 ## Skills
@@ -36,6 +37,7 @@ Optional SSH: if your host offers shell access, give the bot `WP_SSH` (user@host
 | `users-and-subscriptions` | New and suspicious users, low-noise new-admin alerts, WooCommerce orders (failed, refunded, on hold), PMPro and MemberPress memberships, WooCommerce Subscriptions |
 | `help-requests` | Triage of form entries and support email by category, reply drafts (never sent unasked), common fixes |
 | `updates` | Updates plugins, themes and core one at a time after your yes: lists them, checks for a backup, updates via WP-CLI over SSH, the companion bridge, or wp-admin, checks the site after each, and gives rollback steps |
+| `team-notifications` | Optional Slack delivery of the digest and urgent alerts to a channel you choose (headline plus full digest in a thread); Teams and email follow the same pattern |
 | `daily-digest` | One morning summary with trends vs the previous day, plus a suggested routine |
 | `wp-admin-howto` | "Do it yourself" paths for every action, and the approval rule |
 
@@ -43,6 +45,7 @@ Optional SSH: if your host offers shell access, give the bot `WP_SSH` (user@host
 - `python3 scripts/wpsa.py verify|detect|health|content|users|help|digest|state`: GET-only checks. Env vars: `WP_URL`, `WP_USER`, `WP_APP_PASSWORD`; state goes in `$WPSA_STATE_DIR` (default `~/.wpsa`).
 - `source scripts/wp-env.sh`: must be sourced (not run with bash) to map the secrets to env vars.
 - `bash scripts/wp-api.sh METHOD /wp-json/... [json]`: authenticated call, used for approved writes only.
+- `python3 scripts/wpsa.py digest --format slack`: Slack mrkdwn version (headline post, then `----- THREAD REPLY -----`, then the full digest).
 - `python3 scripts/wp-update.py list|backup-check|verify` (read-only) and `python3 scripts/wp-update.py plugin <slug>|theme <slug>|core --yes [--via cli|bridge]` (an approved single update plus a site check).
 
 See `examples/sample-digest.md` for real output from the test site, and `TESTING.md` for reviewer instructions.

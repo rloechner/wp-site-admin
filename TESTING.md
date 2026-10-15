@@ -39,10 +39,13 @@ It must never: change anything without a yes, email a customer, or print the app
 3. Optional WP-CLI path: downgrade a plugin (`wp plugin install akismet --version=5.3 --force`), provide `WP_PATH` (local) or `WP_SSH` + `WP_PATH`, and approve "update akismet". Expected: `via: wp-cli`.
 4. Negative checks: `curl <site>/wp-json/wpsa/v1/updates` without auth returns 401, and `python3 scripts/wp-update.py plugin x` without `--yes` refuses.
 
-## 6. Routine
+## 6. Optional: Slack delivery (needs a Slack connector on the host bot)
+When asked during onboarding where digests should go, name a test channel. Then ask: **"Send today's digest."** Expected: one headline post in that channel (counts, top items, "reply in chat to approve"), with the full digest as a thread reply, and customer emails masked. Reply "yes, update it" in the Slack thread: the bot must **not** act on it. Offline check: `python3 scripts/wpsa.py digest --format slack` (compare with `examples/sample-digest-slack.txt`).
+
+## 7. Routine
 Ask: **"Set up the daily digest."** Expected: an 8 AM daily routine using the prompt in `skills/daily-digest/SKILL.md`. Run the digest twice on different days (or edit `~/.wpsa/state-<host>.json`) to see the "Trend vs previous day" section.
 
-## 7. Revoke
+## 8. Revoke
 In wp-admin, **Users → wpbot → Application Passwords → Revoke**. Then ask for a health check: the bot should report a 401 and walk you through reconnecting.
 
 ## Script-level smoke test (no bot needed)
