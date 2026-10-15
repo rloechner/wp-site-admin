@@ -7,7 +7,7 @@ description: "Use to triage support requests for a WordPress site: contact form 
 
 ## Sources
 ```bash
-. scripts/wp-env.sh && python3 scripts/wpsa.py help
+source scripts/wp-env.sh && python3 scripts/wpsa.py help
 ```
 - **Contact Form 7** stores nothing; entries only exist as notification emails. Recommend **Flamingo** (Plugins → Add New → Flamingo) so entries land in **Flamingo → Inbound Messages** and are REST-readable.
 - **Flamingo** has no REST API of its own. Install the optional companion `companion/wpsa-rest-bridge.php` into `wp-content/mu-plugins/` (owner uploads it via SFTP/host file manager; one file, delete to revoke). It exposes `/wp/v2/flamingo_inbound` with subject, sender and fields to users who can already read messages in wp-admin. The helper then lists entries with a `category` (login, access, billing, bug, spam, question); spam entries are excluded from the digest.

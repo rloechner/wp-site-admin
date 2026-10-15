@@ -6,7 +6,7 @@ description: "Use to audit WordPress content: stuck or stale drafts, posts pendi
 # Content audit
 
 ```bash
-. scripts/wp-env.sh && python3 scripts/wpsa.py content
+source scripts/wp-env.sh && python3 scripts/wpsa.py content
 ```
 Returns `drafts` (with `days_since_edit`, `stale` ≥30 days), `pending_review`, `missed_schedule`, `no_featured_image`, `no_manual_excerpt`, `comments` (pending/spam counts) with samples, and `broken_internal_links` (links to the site's own host returning 4xx/5xx or no response).
 
@@ -18,7 +18,7 @@ If an SEO plugin is active, also check meta: Yoast exposes `yoast_head_json` on 
 ## Fixes (each needs a yes; say exactly what will change)
 | Fix | REST call after approval | Owner path |
 |---|---|---|
-| Publish missed post | `scripts/wp-api.sh POST /wp-json/wp/v2/posts/<id> '{"status":"publish"}'` | **Posts → All Posts → Scheduled → hover → Quick Edit → Status: Published → Update** |
+| Publish missed post | `bash scripts/wp-api.sh POST /wp-json/wp/v2/posts/<id> '{"status":"publish"}'` | **Posts → All Posts → Scheduled → hover → Quick Edit → Status: Published → Update** |
 | Approve comment | `POST /wp-json/wp/v2/comments/<id> '{"status":"approved"}'` | **Comments → Pending → Approve** |
 | Mark spam | `POST /wp-json/wp/v2/comments/<id> '{"status":"spam"}'` | **Comments → hover → Spam** |
 | Delete spam permanently | `DELETE /wp-json/wp/v2/comments/<id>?force=true` (irreversible) | **Comments → Spam → Empty Spam** |

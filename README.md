@@ -34,9 +34,9 @@ Optional: to let the bot read **Flamingo** form entries (Flamingo has no REST AP
 | `wp-admin-howto` | "Do it yourself" paths for every action, and the approval rule |
 
 ## Helper scripts
-- `scripts/wpsa.py verify|detect|health|content|users|help|digest|state`: GET-only checks. Env vars: `WP_URL`, `WP_USER`, `WP_APP_PASSWORD`; state goes in `$WPSA_STATE_DIR` (default `~/.wpsa`).
-- `scripts/wp-env.sh`: source it to map the secrets to env vars.
-- `scripts/wp-api.sh METHOD /wp-json/... [json]`: authenticated call, used for approved writes only.
+- `python3 scripts/wpsa.py verify|detect|health|content|users|help|digest|state`: GET-only checks. Env vars: `WP_URL`, `WP_USER`, `WP_APP_PASSWORD`; state goes in `$WPSA_STATE_DIR` (default `~/.wpsa`).
+- `source scripts/wp-env.sh`: must be sourced (not run with bash) to map the secrets to env vars.
+- `bash scripts/wp-api.sh METHOD /wp-json/... [json]`: authenticated call, used for approved writes only.
 
 See `examples/sample-digest.md` for real output from the test site, and `TESTING.md` for reviewer instructions.
 

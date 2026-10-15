@@ -16,11 +16,11 @@ Use a separate administrator user for the bot, never the owner's own login. Ever
 3. Give the bot: site URL, username, application password. **Ask them to paste it into the secret store, not chat**, when the host supports secrets.
 
 ## Store as secrets (never in notes, memory, or chat replies)
-`WP_SITE_URL` (https://example.com, no trailing slash), `WP_BOT_USER` (wpbot), `WP_BOT_APP_PASSWORD`. Multi-site owners: suffix with a site key (`WP_SITE_URL_SHOP`). Never print the values; `scripts/wp-env.sh` maps them to the helper's env vars.
+`WP_SITE_URL` (https://example.com, no trailing slash), `WP_BOT_USER` (wpbot), `WP_BOT_APP_PASSWORD`. Multi-site owners: suffix with a site key (`WP_SITE_URL_SHOP`). Never print the values; `source scripts/wp-env.sh` maps them to the helper's env vars.
 
 ## Verify
 ```bash
-. scripts/wp-env.sh && python3 scripts/wpsa.py verify
+source scripts/wp-env.sh && python3 scripts/wpsa.py verify
 ```
 Expect `"ok": true, "is_admin": true`. Troubleshooting:
 - **401 `rest_not_logged_in`**: host strips the `Authorization` header (common on Apache/CGI). Owner fix: add `SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1` to `.htaccess`, or ask the host.

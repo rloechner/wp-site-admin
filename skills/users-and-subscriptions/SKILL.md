@@ -6,7 +6,7 @@ description: "Use to triage WordPress users and revenue: new signups, suspicious
 # Users and subscriptions
 
 ```bash
-. scripts/wp-env.sh && python3 scripts/wpsa.py users
+source scripts/wp-env.sh && python3 scripts/wpsa.py users
 ```
 Returns totals, `site_age_days`, `admin_baseline`, `roles`, `administrators`, `new_users` (last 7 days), `suspicious` (disposable email, random-looking username, new administrators other than the bot), and, when WooCommerce is present, products, `orders_by_status`, `failed_orders`, and `subscriptions` (by status, on-hold/pending-cancel, ending within 14 days).
 
@@ -30,7 +30,7 @@ An administrator is flagged only if (a) a known-admin baseline exists (saved by 
 | Task | REST after yes | Owner path |
 |---|---|---|
 | Send password reset | no core REST; tell owner, or use WP-CLI `wp user reset-password <user>` | **Users → All Users → hover user → Send password reset** |
-| Change role | `wp-api.sh POST /wp-json/wp/v2/users/<id> '{"roles":["editor"]}'` | **Users → All Users → edit → Role** |
+| Change role | `bash scripts/wp-api.sh POST /wp-json/wp/v2/users/<id> '{"roles":["editor"]}'` | **Users → All Users → edit → Role** |
 | Delete user (reassign content!) | `DELETE /wp-json/wp/v2/users/<id>?force=true&reassign=<id>` (irreversible) | **Users → All Users → Delete → Attribute content to** |
 | Retry/complete order | `PUT /wp-json/wc/v3/orders/<id> '{"status":"processing"}'` | **WooCommerce → Orders → open → Status** |
 | Refund | never without explicit amount + yes | **WooCommerce → Orders → open → Refund** |

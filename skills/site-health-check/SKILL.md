@@ -6,7 +6,7 @@ description: "Use to check whether a WordPress site is healthy: uptime and respo
 # Site health check
 
 ```bash
-. scripts/wp-env.sh && python3 scripts/wpsa.py health
+source scripts/wp-env.sh && python3 scripts/wpsa.py health
 ```
 
 ## What it checks and how to read it
@@ -29,7 +29,7 @@ description: "Use to check whether a WordPress site is healthy: uptime and respo
 | Action | REST (after yes) | Owner does it at |
 |---|---|---|
 | Update a plugin | no core REST endpoint; WP-CLI `wp plugin update <slug>` if shell access, otherwise owner | **Dashboard → Updates**, or **Plugins → Installed Plugins → update now** |
-| Activate/deactivate plugin | `wp-api.sh POST /wp-json/wp/v2/plugins/<file> '{"status":"inactive"}'` | **Plugins → Installed Plugins** |
+| Activate/deactivate plugin | `bash scripts/wp-api.sh POST /wp-json/wp/v2/plugins/<file> '{"status":"inactive"}'` | **Plugins → Installed Plugins** |
 | Publish a missed post | see content-audit | **Posts → All Posts → Scheduled → Quick Edit** |
 | Review all health items | — | **Tools → Site Health** (Status and Info tabs) |
 
